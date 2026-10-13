@@ -19,18 +19,16 @@ INTERNATIONAL_AIRPORTS = ['London Heathrow', 'Dubai International',
 AIRCRAFT_TYPES = ['Boeing 737', 'Boeing 747', 'Airbus A320',
                   'Airbus A330', 'Embraer E190', 'Boeing 787']
 
-FLIGHT_STATUSES = ['Completed', 'Cancelled', 'Delayed', 'On Time']
 
 
 def get_connection():
-    return psycopg2.connect(
-        host="localhost",
-        port="5432",
-        database="financial_intelligence_db",
-        user="postgres",
-        password="DcxzDrewDcxzD@91"
-    )
+    return psycopg2.connect("postgresql://financial_intelligence_29mn_user:fCAfT0YF7vsa78zBDlDWldCru5q1Ot7K@dpg-db2shkcs728c73agj7s0-a.frankfurt-postgres.render.com/financial_intelligence_29mn")
 
+if __name__ == "__main__":
+    conn = get_connection()
+    print("Connection successful!")
+    conn.close()
+   
 
 def generate_aircraft(conn):
     cursor = conn.cursor()
@@ -61,7 +59,7 @@ def generate_flights(conn, num_flights=1000):
 
     all_airports = SA_AIRPORTS + INTERNATIONAL_AIRPORTS
 
-    for _ in range(num_flights):
+    for i in range(num_flights):
         airline = random.choice(SA_AIRLINES)
         origin = random.choice(SA_AIRPORTS)
         destination = random.choice(all_airports)
@@ -79,6 +77,10 @@ def generate_flights(conn, num_flights=1000):
             (airline, origin, destination, flight_date, passengers, revenue, fuel_cost)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
         """, (airline, origin, destination, flight_date, passengers, revenue, fuel_cost))
+
+        if i % 100 == 0:
+            conn.commit()
+            print(f"Committed {i} flights...")
 
     conn.commit()
     print("Flights generated successfully!")

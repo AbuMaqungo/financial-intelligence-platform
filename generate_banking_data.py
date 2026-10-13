@@ -1,3 +1,4 @@
+
 import psycopg2
 import random
 from faker import Faker
@@ -5,7 +6,6 @@ from datetime import timedelta
 
 fake = Faker()
 
-# South African specific data
 SA_BANKS = ['Zwide Bank', 'Togu Financial', 'Mtimande Trust',
             'Ngwenya Credit', 'Faku Savings', 'Moshoeshoe Bank',
             'Gcaleka Financial']
@@ -40,13 +40,7 @@ GENDERS = ['Male', 'Female']
 
 
 def get_connection():
-    return psycopg2.connect(
-        host="localhost",
-        port="5432",
-        database="financial_intelligence_db",
-        user="postgres",
-        password="DcxzDrewDcxzD@91"
-    )
+    return psycopg2.connect("postgresql://financial_intelligence_29mn_user:fCAfT0YF7vsa78zBDlDWldCru5q1Ot7K@dpg-db2shkcs728c73agj7s0-a.frankfurt-postgres.render.com/financial_intelligence_29mn")
 
 
 def generate_customers(conn, num_customers=500):
@@ -104,8 +98,9 @@ def generate_transactions(conn):
     accounts = [row[0] for row in cursor.fetchall()]
     print(f"Generating transactions for {len(accounts)} accounts...")
 
+    count = 0
     for account in accounts:
-        num_transactions = random.randint(5, 30)
+        num_transactions = random.randint(2, 5)
         for _ in range(num_transactions):
             transaction_type = random.choice(TRANSACTION_TYPES)
             amount = round(random.uniform(50, 50000), 2)
@@ -119,6 +114,11 @@ def generate_transactions(conn):
                 (account_id, transaction_type, amount, currency, transaction_date, description, status)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, (account, transaction_type, amount, currency, transaction_date, description, status))
+
+            count += 1
+            if count % 100 == 0:
+                conn.commit()
+                print(f"Committed {count} transactions...")
 
     conn.commit()
     print("Transactions generated successfully!")
@@ -159,3 +159,5 @@ if __name__ == "__main__":
     generate_loans(conn)
     conn.close()
     print("All banking data generated successfully!")
+
+

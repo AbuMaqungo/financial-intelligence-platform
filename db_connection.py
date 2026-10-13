@@ -1,14 +1,7 @@
 import psycopg2
 
 def get_connection():
-    conn = psycopg2.connect(
-        host="localhost",
-        port="5432",
-        database="financial_intelligence_db",
-        user="postgres",
-        password="DcxzDrewDcxzD@91"
-    )
-    return conn
+    return psycopg2.connect("postgresql://financial_intelligence_29mn_user:fCAfT0YF7vsa78zBDlDWldCru5q1Ot7K@dpg-db2shkcs728c73agj7s0-a.frankfurt-postgres.render.com/financial_intelligence_29mn")
 
 if __name__ == "__main__":
     conn = get_connection()

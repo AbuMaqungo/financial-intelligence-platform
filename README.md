@@ -32,3 +32,14 @@
 - GitHub: [AbuMaqungo](https://github.com/AbuMaqungo)
 - LinkedIn: [linkedin.com/in/abulele-maqungo-53938b241](https://linkedin.com/in/abulele-maqungo-53938b241)
 - Portfolio: [abulelemaqungo-portfolio.vercel.app](https://abulelemaqungo-portfolio.vercel.app)
+
+## Live Dashboard
+
+View the interactive Financial Intelligence Dashboard here:
+
+**[Financial Intelligence Dashboard — Looker Studio](https://datastudio.google.com/reporting/ea65b2bf-9083-4846-8b02-72edc56164d6)**
+
+Includes:
+- 🏦 Banking Analytics
+- 🛡️ Insurance Analytics  
+- 🌍 Economics Analytics
